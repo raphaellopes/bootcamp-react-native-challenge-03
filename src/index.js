@@ -2,6 +2,8 @@ import React from 'react';
 import '~/config/reactotron';
 import { Text, View } from 'react-native';
 
-const App = () => (<View><Text>Starting</Text></View>);
+import MapBox from '~/components/mapbox';
+
+const App = () => <MapBox />;
 
 export default App;
