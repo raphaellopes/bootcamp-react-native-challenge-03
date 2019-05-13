@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
@@ -7,8 +8,13 @@ import styles from './styles';
 
 MapboxGL.setAccessToken(mapboxConfig.accessToken);
 
-const MapBox = () => (
+const MapBox = ({ onLongPress }) => (
   <MapboxGL.MapView
+    onLongPress={(data) => {
+      const { geometry: { coordinates: [longitude, latitude] } } = data;
+
+      onLongPress(longitude, latitude);
+    }}
     centerCoordinate={[-49.6446024, -27.2108001]}
     style={styles.container}
     showUserLocation
@@ -25,5 +31,9 @@ const MapBox = () => (
     </MapboxGL.PointAnnotation>
   </MapboxGL.MapView>
 );
+
+MapBox.propTypes = {
+  onLongPress: PropTypes.func.isRequired,
+};
 
 export default MapBox;
