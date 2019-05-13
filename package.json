@@ -8,7 +8,10 @@
   },
   "dependencies": {
     "react": "16.8.3",
-    "react-native": "0.59.8"
+    "react-native": "0.59.8",
+    "reactotron-react-native": "^3.5.0",
+    "reactotron-redux": "^3.1.0",
+    "reactotron-redux-saga": "^4.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
