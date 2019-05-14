@@ -16,8 +16,7 @@ import {
 class AddUser extends Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onConfirm: PropTypes.func.isRequired,
+    addUserCloseModal: PropTypes.func.isRequired,
     error: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string,
@@ -43,15 +42,16 @@ class AddUser extends Component {
   }
 
   handleCancel = () => {
+    const { addUserCloseModal } = this.props;
+
+    addUserCloseModal();
     this.githubuser = '';
-    this.props.onCancel();
   }
 
   handleConfirm = () => {
-    const { onConfirm, addUserRequest, coordinates } = this.props;
+    const { addUserRequest, coordinates } = this.props;
 
     addUserRequest(this.githubuser, coordinates);
-    onConfirm();
     this.githubuser = '';
   }
 

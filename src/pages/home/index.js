@@ -11,7 +11,6 @@ import { Container } from './styles';
 class Home extends Component {
   static propTypes = {
     addUserOpenModal: PropTypes.func.isRequired,
-    addUserCloseModal: PropTypes.func.isRequired,
     users: PropTypes.shape({
       loding: PropTypes.bool,
       error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -39,22 +38,15 @@ class Home extends Component {
     this.setState({ coordinates });
   }
 
-  handleConfirm = () => {
-    console.tron.log('Confirm modal pressed!');
-  }
-
   render() {
     const { coordinates } = this.state;
-    const { users, addUserCloseModal } = this.props;
-    console.tron.log(this.props);
+    const { users } = this.props;
 
     return (
       <Container>
         <AddUser
           visible={users.isModalOpen}
           coordinates={coordinates}
-          onCancel={addUserCloseModal}
-          onConfirm={this.handleConfirm}
         />
         <MapBox pins={users.data} onLongPress={this.handlePress} />
       </Container>
