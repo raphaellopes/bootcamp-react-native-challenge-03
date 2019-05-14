@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  Modal, Alert, ActivityIndicator,
+  Modal, ActivityIndicator,
 } from 'react-native';
 
 import { Creators as UsersActions } from '~/store/ducks/users';
@@ -38,16 +38,26 @@ class AddUser extends Component {
     return this.state.githubuser;
   }
 
-  handleConfirm = async () => {
+  set githubuser(githubuser) {
+    this.setState({ githubuser });
+  }
+
+  handleCancel = () => {
+    this.githubuser = '';
+    this.props.onCancel();
+  }
+
+  handleConfirm = () => {
     const { onConfirm, addUserRequest, coordinates } = this.props;
 
-    console.tron.log(this.githubuser, coordinates);
-    await addUserRequest(this.githubuser, coordinates);
+    addUserRequest(this.githubuser, coordinates);
+    onConfirm();
+    this.githubuser = '';
   }
 
   render() {
     const {
-      visible, onCancel, onConfirm, error, loading,
+      visible, error, loading,
     } = this.props;
 
     return (
@@ -55,9 +65,7 @@ class AddUser extends Component {
         animationType="fade"
         transparent
         visible={visible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}
+        onRequestClose={this.handleCancel}
       >
         <Container>
           <Wrapper>
@@ -75,12 +83,12 @@ class AddUser extends Component {
               placeholder="Usuário no Github"
               value={this.githubuser}
               error={error}
-              onChangeText={text => this.setState({ githubuser: text })}
+              onChangeText={(text) => { this.githubuser = text; }}
             />
 
             <ButtonWrapper>
               <Button
-                onPress={onCancel}
+                onPress={this.handleCancel}
               >
                 <ButtonText>Cancelar</ButtonText>
               </Button>

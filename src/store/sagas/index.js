@@ -20,6 +20,7 @@ function* usersAdd(action) {
       yield put(UsersActions.addUserSuccess({
         id: data.id,
         login: data.login,
+        name: data.name,
         bio: data.bio,
         avatar: data.avatar_url,
         coordinates,

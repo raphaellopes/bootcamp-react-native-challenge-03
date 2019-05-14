@@ -3,12 +3,15 @@ export const Types = {
   ADD_REQUEST: 'USERS_ADD_REQUEST',
   ADD_SUCCESS: 'USERS_ADD_SUCCESS',
   ADD_FAILURE: 'USERS_ADD_FAILURE',
+  ADD_OPENMODAL: 'USERS_ADD_OPENMODAL',
+  ADD_CLOSEMODAL: 'USERS_ADD_CLOSEMODAL',
 };
 
 // reducers
 const initialState = {
   loading: false,
   error: false,
+  isModalOpen: false,
   data: [],
 };
 
@@ -28,7 +31,14 @@ export default function users(state = initialState, action) {
           ...state.data,
           action.payload.data,
         ],
+        isModalOpen: false,
       };
+
+    case Types.ADD_OPENMODAL:
+      return { ...state, isModalOpen: true };
+
+    case Types.ADD_CLOSEMODAL:
+      return { ...state, isModalOpen: false, error: false };
 
     default:
       return state;
@@ -48,4 +58,6 @@ export const Creators = {
     type: Types.ADD_FAILURE,
     payload: { error },
   }),
+  addUserOpenModal: () => ({ type: Types.ADD_OPENMODAL }),
+  addUserCloseModal: () => ({ type: Types.ADD_CLOSEMODAL }),
 };

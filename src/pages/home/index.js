@@ -1,23 +1,42 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import MapBox from '~/components/mapbox';
 import AddUser from '~/components/add-user';
+import { Creators as UsersActions } from '~/store/ducks/users';
 import { Container } from './styles';
 
-export default class Home extends Component {
+class Home extends Component {
+  static propTypes = {
+    addUserOpenModal: PropTypes.func.isRequired,
+    addUserCloseModal: PropTypes.func.isRequired,
+    users: PropTypes.shape({
+      loding: PropTypes.bool,
+      error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+      isModalOpen: PropTypes.bool,
+      data: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        bio: PropTypes.string,
+        avatar: PropTypes.string,
+        coordinates: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+        }),
+      })),
+    }).isRequired,
+  }
+
   state = {
-    showModal: false,
     coordinates: {},
   }
 
   handlePress = (longitude, latitude) => {
     const coordinates = { latitude, longitude };
-    console.tron.log('Map pressed', coordinates);
-    this.setState({ showModal: true, coordinates });
-  }
-
-  handleCancel = () => {
-    this.setState({ showModal: false });
+    this.props.addUserOpenModal();
+    this.setState({ coordinates });
   }
 
   handleConfirm = () => {
@@ -25,18 +44,30 @@ export default class Home extends Component {
   }
 
   render() {
-    const { showModal, coordinates } = this.state;
+    const { coordinates } = this.state;
+    const { users, addUserCloseModal } = this.props;
+    console.tron.log(this.props);
 
     return (
       <Container>
         <AddUser
-          visible={showModal}
+          visible={users.isModalOpen}
           coordinates={coordinates}
-          onCancel={this.handleCancel}
+          onCancel={addUserCloseModal}
           onConfirm={this.handleConfirm}
         />
-        <MapBox onLongPress={this.handlePress} />
+        <MapBox pins={users.data} onLongPress={this.handlePress} />
       </Container>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  users: state.users,
+});
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators(UsersActions, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
