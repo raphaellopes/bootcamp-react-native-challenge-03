@@ -10,18 +10,26 @@ export default class Home extends Component {
   }
 
   handlePress = (longitude, latitude) => {
-    console.tron.log('Home page', { longitude, latitude });
+    console.tron.log('Map pressed', { longitude, latitude });
     this.setState({ showModal: true });
   }
 
-  handleClose = () => {
+  handleCancel = () => {
     this.setState({ showModal: false });
+  }
+
+  handleConfirm = () => {
+    console.tron.log('Confirm modal pressed!');
   }
 
   render() {
     return (
       <Container>
-        <AddUser visible={this.state.showModal} onClose={this.handleClose} />
+        <AddUser
+          visible={this.state.showModal}
+          onCancel={this.handleCancel}
+          onConfirm={this.handleConfirm}
+        />
         <MapBox onLongPress={this.handlePress} />
       </Container>
     );

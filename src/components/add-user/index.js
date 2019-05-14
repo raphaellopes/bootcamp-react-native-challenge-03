@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Modal, Text, TouchableHighlight, Alert,
+  Modal, Alert,
 } from 'react-native';
 
 import {
-  Container, Wrapper, Title, Input,
+  Container, Wrapper, Title, Input, ButtonWrapper, Button, ButtonText, Separator,
 } from './styles';
 
 export default class AddUser extends Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onConfirm: PropTypes.func.isRequired,
   }
 
   state = {
@@ -19,8 +20,8 @@ export default class AddUser extends Component {
   }
 
   render() {
-    const { visible, onClose } = this.props;
-    const { username } = this.state;
+    const { visible, onCancel, onConfirm } = this.props;
+    const { githubuser } = this.state;
 
     return (
       <Modal
@@ -39,15 +40,26 @@ export default class AddUser extends Component {
               autoCapitalize="none"
               autoCorrect={false}
               placeholder="Usuário no Github"
-              value={username}
-              onChangeText={text => this.setState({ username: text })}
+              value={githubuser}
+              onChangeText={text => this.setState({ githubuser: text })}
             />
 
-            <TouchableHighlight
-              onPress={onClose}
-            >
-              <Text>Hide Modal</Text>
-            </TouchableHighlight>
+            <ButtonWrapper>
+              <Button
+                onPress={onCancel}
+              >
+                <ButtonText>Cancelar</ButtonText>
+              </Button>
+
+              <Separator />
+
+              <Button
+                color="primary"
+                onPress={onConfirm}
+              >
+                <ButtonText>Salvar</ButtonText>
+              </Button>
+            </ButtonWrapper>
           </Wrapper>
         </Container>
       </Modal>
