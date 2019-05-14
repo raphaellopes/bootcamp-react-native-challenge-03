@@ -18,7 +18,7 @@ const MapBox = ({ onLongPress }) => (
     centerCoordinate={[-49.6446024, -27.2108001]}
     style={styles.container}
     showUserLocation
-    styleURL={MapboxGL.StyleURL.Dark}
+    styleURL={MapboxGL.StyleURL.Light}
   >
     <MapboxGL.PointAnnotation
       id="rocketseat"
