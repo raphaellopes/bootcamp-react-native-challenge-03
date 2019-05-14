@@ -7,11 +7,13 @@ import { Container } from './styles';
 export default class Home extends Component {
   state = {
     showModal: false,
+    coordinates: {},
   }
 
   handlePress = (longitude, latitude) => {
-    console.tron.log('Map pressed', { longitude, latitude });
-    this.setState({ showModal: true });
+    const coordinates = { latitude, longitude };
+    console.tron.log('Map pressed', coordinates);
+    this.setState({ showModal: true, coordinates });
   }
 
   handleCancel = () => {
@@ -23,10 +25,13 @@ export default class Home extends Component {
   }
 
   render() {
+    const { showModal, coordinates } = this.state;
+
     return (
       <Container>
         <AddUser
-          visible={this.state.showModal}
+          visible={showModal}
+          coordinates={coordinates}
           onCancel={this.handleCancel}
           onConfirm={this.handleConfirm}
         />

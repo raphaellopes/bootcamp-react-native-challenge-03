@@ -34,8 +34,8 @@ export const Input = styled.TextInput.attrs({
   padding: 0 ${metrics.basePadding}px;
   height: 42px;
   font-size: 16px;
-  color: ${colors.regular};
-  border: 1px solid ${colors.regular};
+  color: ${({ error }) => (error ? colors.danger : colors.regular)};
+  border: 1px solid ${({ error }) => (error ? colors.danger : colors.regular)};
   margin-bottom: ${metrics.baseMargin}px;
 `;
 
@@ -60,4 +60,15 @@ export const ButtonText = styled.Text`
 
 export const Separator = styled.View`
   width: ${metrics.baseMargin}px;
+`;
+
+export const Error = styled.View`
+  background: ${colors.danger};
+  padding: ${metrics.basePadding}px;
+  margin-bottom: ${metrics.baseMargin}px;
+  border-radius: ${metrics.baseRadius}px;
+`;
+
+export const ErrorText = styled.Text`
+  color: ${colors.white};
 `;
